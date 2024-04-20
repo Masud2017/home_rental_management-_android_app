@@ -1,9 +1,11 @@
 package com.home_rental.home_rental_management;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText username = null;
     private EditText password = null;
     private SharedPreferences sessionStorage = null;
+    private AlertDialog.Builder alertDialogBuilder = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         this.login_btn = findViewById(R.id.login_btn);
+        this.alertDialogBuilder = new AlertDialog.Builder(this);
 
         this.login_btn.setOnClickListener(view -> {
             username = findViewById(R.id.username);
@@ -42,18 +46,25 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else {
+                alertDialogBuilder.setTitle("Invalid login credential");
+                alertDialogBuilder.setMessage("Sorry the credential that you provided is not valid. Please enter right credentials.");
+                alertDialogBuilder.setCancelable(false);
+                alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
 
+                alertDialogBuilder.show();
             }
 
-//            TextView textview = findViewById(R.id.text_show);
-//            textview.setText("Hello world here is the text that I want to show : \n");
-//            textview.append("User name : "+usernameString+"\n");
-//            textview.append("Password : "+ passwordString);
 
+            sessionStorage = getSharedPreferences("user_session", MODE_PRIVATE);
 
-//            sessionStorage = getSharedPreferences("user_session", MODE_PRIVATE);
-
-
+            SharedPreferences.Editor sessionStorageEditor = sessionStorage.edit();
+            sessionStorageEditor.putString("session","true");
+            sessionStorageEditor.putString("name","Rifat Muntasir");
 
         });
     }
