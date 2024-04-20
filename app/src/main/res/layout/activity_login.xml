@@ -1,39 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="Enter your username"
-        android:layout_marginBottom="10dp"
-        android:layout_margin="1.5dp"
-        android:background="@drawable/input_field_style"
-        />
+    android:layout_height="match_parent"
+    android:background="@color/bg"
 
-    <EditText
-        android:id="@+id/password"
-        android:background="@drawable/input_field_style"
-        android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    >
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="Enter your password"
-        android:layout_marginBottom="100dp"
-        android:layout_margin="1.5dp"
-        />
-    
-    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_style"
-        android:layout_margin="1.5dp"
-        android:text="Login"
-        android:textColor="@color/white"
-        />
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:padding="15dp"
+
+        >
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Enter your username"
+
+            android:background="@drawable/input_field_style"
+            />
+
+        <EditText
+            android:id="@+id/password"
+            android:background="@drawable/input_field_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Enter your password"
+            android:layout_marginTop="15dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/button_style"
+            android:text="Login"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/text_show"-->
+<!--        android:textAlignment="center"-->
+<!--        />-->
 
 </LinearLayout>
