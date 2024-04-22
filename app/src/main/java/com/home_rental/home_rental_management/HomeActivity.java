@@ -1,25 +1,30 @@
 package com.home_rental.home_rental_management;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.SearchView;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.logging.Logger;
 
 
 public class HomeActivity extends AppCompatActivity {
-    private AppCompatButton loginBtn = null;
-    private AppCompatButton signupButton = null;
-    private SearchView searchBar = null;
-    private ProgressBar progressBar = null;
-    private ScrollView scrollView = null;
+
+    private TabLayout tab = null;
+    private ViewPager2 pager = null;
 
     private Logger logger = Logger.getLogger("HomeActivity.class");
 
@@ -28,50 +33,24 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        this.loginBtn = findViewById(R.id.login);
-        this.signupButton = findViewById(R.id.signup);
-        this.searchBar = findViewById(R.id.search_bar);
-        this.progressBar = findViewById(R.id.progress_bar);
-        this.scrollView = findViewById(R.id.scroll_view);
 
+        this.tab = findViewById(R.id.home_tab);
+        this.tab.setTabGravity(TabLayout.GRAVITY_CENTER);
+        this.pager = findViewById(R.id.pager);
+        FragmentStateAdapter homeAndLoginFragmentAdapter = new HomeAndLoginFragmentAdapter(getSupportFragmentManager(),getLifecycle());
 
-        new Handler().postDelayed(new Runnable() {
+        this.pager.setAdapter(homeAndLoginFragmentAdapter);
+        new TabLayoutMediator(this.tab, this.pager, (tab, position) -> {
+            if (position == 0) {
+                tab.setText("Home");
+                tab.setIcon(R.drawable.baseline_home_24);
 
-            @Override
-            public void run() {
-                progressBar.setVisibility(ProgressBar.GONE);
-                scrollView.setVisibility(ScrollView.VISIBLE);
+            } else if (position == 1) {
+                tab.setText("User");
+                tab.setIcon(R.drawable.baseline_account_circle_24);
             }
+        }).attach();
 
-        }, 2000);
-
-
-
-
-        this.searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-
-                return false;
-            }
-        });
-
-        this.loginBtn.setOnClickListener(view -> {
-            Intent loginIntent = new Intent(HomeActivity.this,LoginActivity.class);
-            startActivity(loginIntent);
-            finish();
-        });
-
-        this.signupButton.setOnClickListener((View view)-> {
-            Intent intent = new Intent(HomeActivity.this, SignupActivity.class);
-            startActivity(intent);
-            finish();
-        });
     }
 
 }

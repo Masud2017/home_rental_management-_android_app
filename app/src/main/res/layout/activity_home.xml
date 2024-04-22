@@ -7,137 +7,151 @@
     android:background="@color/bg"
     android:padding="10dp"
     >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="15dp"
-        >
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_marginBottom="15dp"-->
+<!--        >-->
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/login"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
 
-            android:background="@drawable/button_style"
-            android:text="Login"
-            android:layout_margin="3dp"
-            android:layout_marginBottom="4sp"
-            android:backgroundTint="@null"
-            />
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/signup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_style"
-            android:text="Signup"
-            android:layout_margin="3dp"
+<!--            android:background="@drawable/button_style"-->
+<!--            android:text="Login"-->
+<!--            android:layout_margin="3dp"-->
+<!--            android:layout_marginBottom="4sp"-->
+<!--            android:backgroundTint="@null"-->
+<!--            />-->
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/signup"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/button_style"-->
+<!--            android:text="Signup"-->
+<!--            android:layout_margin="3dp"-->
 
-            android:backgroundTint="@null"/>
-    </LinearLayout>
+<!--            android:backgroundTint="@null"/>-->
+<!--    </LinearLayout>-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        >
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        >-->
 
-        <SearchView
-            android:id="@+id/search_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:hint="Search home by name"
-            />
+<!--        <SearchView-->
+<!--            android:id="@+id/search_bar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@color/white"-->
+<!--            android:hint="Search home by name"-->
+<!--            />-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        />
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progress_bar"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        />-->
 
-    <ScrollView
-        android:id="@+id/scroll_view"
+<!--    <ScrollView-->
+<!--        android:id="@+id/scroll_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="279dp"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:scrollbars="vertical"-->
+<!--        android:visibility="invisible">-->
+
+<!--        <GridLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:columnCount="3"-->
+<!--            android:horizontalSpacing="100dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:scrollbarStyle="outsideOverlay"-->
+<!--            android:scrollbars="vertical">-->
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="120dp"-->
+<!--                android:layout_height="240dp"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:background="@drawable/home_card_style"-->
+<!--                app:cardCornerRadius="10dp">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="vertical">-->
+
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/img"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="2dp"-->
+<!--                        android:background="@drawable/ic_launcher_foreground" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView3"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="5dp"-->
+<!--                        android:text="Home Sweet Home"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textSize="15dp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/img" />-->
+
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="2dp"-->
+<!--                        android:text="1,25,000,00 BDT"-->
+<!--                        android:textAlignment="center"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="3dp"-->
+<!--                        android:maxLength="30"-->
+<!--                        android:text="Hello world this is a description for a home that I want to sell"-->
+<!--                        android:textAlignment="center"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
+
+<!--                </LinearLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+
+<!--        </GridLayout>-->
+<!--    </ScrollView>-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:scrollbars="vertical"
-        android:visibility="invisible"
+        android:orientation="vertical"
         >
 
-        <GridLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnCount="3"
-            android:horizontalSpacing="100dp"
-            android:orientation="horizontal"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="outsideOverlay"
-            >
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="120dp"
-                android:layout_height="240dp"
-                android:background="@drawable/home_card_style"
-                app:cardCornerRadius="10dp"
-                android:layout_margin="5dp"
-                >
-                <LinearLayout
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    >
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/home_tab"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
 
+            />
 
-                    <ImageView
-                        android:id="@+id/img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:background="@drawable/ic_launcher_foreground"
-                        />
-
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Home Sweet Home"
-                        android:textAlignment="center"
-                        android:textSize="15dp"
-                        android:textStyle="bold"
-                        app:layout_constraintTop_toBottomOf="@+id/img"
-                        />
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="1,25,000,00 BDT"
-                        android:textAlignment="center"
-                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:layout_height="wrap_content"
-                        android:text="Hello world this is a description for a home that I want to sell"
-                        android:textAlignment="center"
-                        app:layout_constraintTop_toBottomOf="@+id/textView3"
-                        android:maxLength="30"
-                        />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-        </GridLayout>
-    </ScrollView>
-
+    </RelativeLayout>
 </LinearLayout>
