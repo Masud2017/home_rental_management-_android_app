@@ -69,6 +69,7 @@
     </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/add_home_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/add_button_background"
