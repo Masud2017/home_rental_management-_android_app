@@ -17,14 +17,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.home_rental.home_rental_management.Models.HomeModelResponse;
+import com.home_rental.home_rental_management.adapters.CardListAdapter;
 import com.home_rental.home_rental_management.services.Api;
 import com.home_rental.home_rental_management.services.AsyncApiCall;
 
@@ -41,7 +44,7 @@ public class HomeFragment extends Fragment {
 
     private SearchView searchBar = null;
     private ProgressBar progressBar = null;
-    private ScrollView scrollView = null;
+    private GridView scrollView = null;
 
 
     public HomeFragment() {
@@ -49,58 +52,10 @@ public class HomeFragment extends Fragment {
     }
 
     public void showHomeList(View view) throws IOException, ExecutionException, InterruptedException {
-        AsyncApiCall asyncApiCall = new AsyncApiCall();
-        @SuppressWarnings("deprecation")
-        List<HomeModelResponse> homeModelResponseList = asyncApiCall.execute("").get();
+        GridView gridview = view.findViewById(R.id.home_grid);
+        CardListAdapter cardListAdapter = new CardListAdapter(getContext());
 
-        for (HomeModelResponse homeModelResponseItem : homeModelResponseList) {
-            ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(450,840);
-
-            marginLayoutParams.setMargins(12,12,15,12);
-            ViewGroup.LayoutParams layoutParams = new FrameLayout.LayoutParams(marginLayoutParams);
-
-            CardView cardView = new CardView(this.getContext());
-            cardView.setLayoutParams(layoutParams);
-
-            // setting up the basic card attribtues
-            cardView.setRadius(30);
-
-            LinearLayout linearLayout = new LinearLayout(getContext());
-            linearLayout.setOrientation(LinearLayout.VERTICAL);
-            linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-            cardView.addView(linearLayout);
-
-            // portion for the image
-            ViewGroup.LayoutParams imageLayoutParam = new ViewGroup.LayoutParams(250,250);
-            ImageView imageView = new ImageView(this.getContext());
-
-            imageView.setImageIcon(Icon.createWithResource(getContext(),R.drawable.logo));
-            imageView.setLayoutParams(imageLayoutParam);
-
-            linearLayout.addView(imageView);
-            // section for the card image ended
-
-            // section for the card header
-            AttributeSet attributeSet =
-            ViewGroup.MarginLayoutParams textMarginParam = new ViewGroup.MarginLayoutParams(getContext(),null);
-            textMarginParam.setMargins(0,15,0,0);
-
-            TextView text = new TextView(this.getContext());
-            text.setLayoutParams(textMarginParam);
-
-            text.setText(homeModelResponseItem.getName());
-            text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            text.setTextSize(20);
-            text.setTypeface(text.getTypeface(), Typeface.BOLD);
-            linearLayout.addView(text);
-            // section for the card header ended
-
-
-            // adding this card to the grid view
-            GridLayout grid = view.findViewById(R.id.home_grid);
-            grid.addView(cardView);
-        }
-
+        gridview.setAdapter(cardListAdapter);
     }
 
     @Override
@@ -117,7 +72,7 @@ public class HomeFragment extends Fragment {
         this.searchBar = view.findViewById(R.id.search_bar);
 
         this.progressBar = view.findViewById(R.id.progress_bar);
-        this.scrollView = view.findViewById(R.id.scroll_view);
+        this.scrollView = view.findViewById(R.id.home_grid);
 
         try {
             this.showHomeList(view);
