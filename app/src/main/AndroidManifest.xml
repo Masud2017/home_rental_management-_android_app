@@ -22,6 +22,9 @@
         android:theme="@style/Theme.Home_Rental_Management"
         tools:targetApi="31">
         <activity
+            android:name=".HomeInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".CustomCardView"
             android:exported="false" />
         <activity

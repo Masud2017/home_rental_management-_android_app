@@ -1,6 +1,10 @@
 package com.home_rental.home_rental_management.services;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+
+import androidx.room.Delete;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -88,6 +92,76 @@ public class Api {
                 throw new RuntimeException(e);
             }
 
+        }
+    }
+
+
+    public class HomeById extends AsyncTask<String,Void,HomeModelResponse> {
+        private String homeId;
+
+        public HomeById setHomeId(String homeId) {
+            this.homeId = homeId;
+            return this;
+        }
+
+        @Override
+        @SuppressWarnings("deprecation")
+        protected HomeModelResponse doInBackground(String... strings) {
+            Request req = new Request.Builder()
+                    .url(baseUrl + "/gethome/"+this.homeId)
+                    .build();
+
+            Response response = null;
+            try {
+                response = client.newCall(req).execute();
+                ResponseBody responseBody = response.body();
+                GsonBuilder gsonBuilder = new GsonBuilder();
+                gsonBuilder.setPrettyPrinting();
+                Gson gson = gsonBuilder.create();
+
+                String jsonString = responseBody.string();
+
+                HomeModelResponse homeModelResponse = gson.fromJson(jsonString, HomeModelResponse.class);
+
+                return homeModelResponse;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public class DeleteHomeById extends AsyncTask<String,Void,Void> {
+        private Context context;
+        private String homeId;
+
+        public DeleteHomeById setHomeId(String homeId) {
+            this.homeId = homeId;
+            return this;
+        }
+
+        public DeleteHomeById setContext(Context context) {
+            this.context = context;
+            return this;
+        }
+
+        @Override
+        @SuppressWarnings("deprecation")
+        protected Void doInBackground(String... strings) {
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+            String jwtToken = sharedPreferences.getString("access_token","");
+
+            Request req = new Request.Builder()
+                    .delete()
+                    .url(baseUrl + "/deletehome/"+this.homeId)
+                    .header("Authorization","Bearer "+jwtToken)
+                    .build();
+
+            try {
+                client.newCall(req).execute();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
         }
     }
 }
