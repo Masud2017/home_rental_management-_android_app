@@ -8,6 +8,7 @@
     tools:context=".CustomCardView"
     app:cardCornerRadius="10dp"
     android:padding="4dp"
+    android:minHeight="240dp"
     >
 
         <LinearLayout

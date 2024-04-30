@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
         this.tab = findViewById(R.id.home_tab);
         this.tab.setTabGravity(TabLayout.GRAVITY_CENTER);
         this.pager = findViewById(R.id.pager);
-        FragmentStateAdapter homeAndLoginFragmentAdapter = new HomeAndLoginFragmentAdapter(getSupportFragmentManager(),getLifecycle());
+        FragmentStateAdapter homeAndLoginFragmentAdapter = new HomeAndLoginFragmentAdapter(getSupportFragmentManager(),getLifecycle(),getApplicationContext());
 
         this.pager.setAdapter(homeAndLoginFragmentAdapter);
         new TabLayoutMediator(this.tab, this.pager, (tab, position) -> {
@@ -48,6 +48,9 @@ public class HomeActivity extends AppCompatActivity {
             } else if (position == 1) {
                 tab.setText("User");
                 tab.setIcon(R.drawable.baseline_account_circle_24);
+            } else if (position == 2) {
+                tab.setText("Setting");
+                tab.setIcon(R.drawable.setting);
             }
         }).attach();
 

@@ -8,8 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,12 +41,14 @@ import java.util.concurrent.ExecutionException;
 import java.util.jar.Attributes;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     public static String TITLE = "home";
 
     private SearchView searchBar = null;
     private ProgressBar progressBar = null;
     private GridView scrollView = null;
+    private View view;
+    private SwipeRefreshLayout homeSwipeRefreshLayout = null;
 
 
     public HomeFragment() {
@@ -68,7 +72,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceData) {
         super.onViewCreated(view,savedInstanceData);
+        this.view = view;
 
+        this.homeSwipeRefreshLayout = view.findViewById(R.id.home_swipe_refresher);
         this.searchBar = view.findViewById(R.id.search_bar);
 
         this.progressBar = view.findViewById(R.id.progress_bar);
@@ -108,5 +114,27 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        this.homeSwipeRefreshLayout.setOnRefreshListener(this);
+
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HomeFragment.this.showHomeList(HomeFragment.this.view);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                homeSwipeRefreshLayout.setRefreshing(false);
+            }
+        },1000);
     }
 }

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingFragment"
+    android:orientation="vertical"
+    android:background="@color/bg"
+    android:padding="15dp"
+    android:divider="@color/white"
+    android:showDividers="end"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/profile_image_style"
+            android:src="@drawable/baseline_account_circle_24"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rifat Muntasir"
+                android:textSize="35dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:textAlignment="textStart"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Account"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            />
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Wallet"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            />
+
+        <TextView
+            android:id="@+id/profile_logout"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Logout"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            />
+
+
+    </LinearLayout>
+
+</LinearLayout>

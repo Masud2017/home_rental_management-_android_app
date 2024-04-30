@@ -14,7 +14,7 @@ public class HomeModelResponse {
     private String desc;
     private Integer price;
     private String address;
-    private String flatCount;
+    private String flat_count;
     private Boolean is_soled;
 
     public long getId() {
@@ -57,12 +57,12 @@ public class HomeModelResponse {
         this.address = address;
     }
 
-    public String getFlatCount() {
-        return flatCount;
+    public String getFlat_count() {
+        return flat_count;
     }
 
-    public void setFlatCount(String flatCount) {
-        this.flatCount = flatCount;
+    public void setFlat_count(String flat_count) {
+        this.flat_count = flat_count;
     }
 
     public Boolean getIs_soled() {
