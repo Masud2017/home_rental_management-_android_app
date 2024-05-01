@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.home_rental.home_rental_management.Models.Home;
 import com.home_rental.home_rental_management.Models.HomeModelResponse;
+import com.home_rental.home_rental_management.Models.Role;
 import com.home_rental.home_rental_management.Models.User;
 import com.home_rental.home_rental_management.Models.UserAuthResponse;
 
@@ -162,6 +163,44 @@ public class Api {
                 throw new RuntimeException(e);
             }
             return null;
+        }
+    }
+
+    public class MyRoleAsyncTask extends AsyncTask<String, Void, Role> {
+        private Context context;
+
+        public MyRoleAsyncTask setContext(Context context) {
+            this.context = context;
+            return this;
+        }
+
+        /**
+         * This method should be invoked only after the user got the jwt token otherwise it won't work.
+         * */
+        @Override
+        @SuppressWarnings("deprecation")
+        protected Role doInBackground(String... strings) {
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+            String jwtToken = sharedPreferences.getString("access_token","");
+
+            Request req = new Request.Builder()
+                    .url(baseUrl + "/getmyrole")
+                    .header("Authorization","Bearer "+jwtToken)
+                    .build();
+
+            try {
+                Response res = client.newCall(req).execute();
+                String responseJson = res.body().string();
+                GsonBuilder gsonBuilder = new GsonBuilder();
+                gsonBuilder.setPrettyPrinting();
+                Gson gson = gsonBuilder.create();
+                Role role = gson.fromJson(responseJson,Role.class);
+
+                return role;
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

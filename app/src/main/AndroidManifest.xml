@@ -56,7 +56,7 @@
         </activity>
         
         <receiver android:name="com.home_rental.home_rental_management.custom_broadcasts.JwtTokenExpiryBroadcaster"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="JWT_REMOVE" />
             </intent-filter>

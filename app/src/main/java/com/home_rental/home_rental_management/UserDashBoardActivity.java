@@ -16,14 +16,6 @@ public class UserDashBoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dash_board);
 
-        // checking whether the jwt token is expired or not
-        // if  the token is expired then it will send the broad cast event to the broadcast
-        // receiver.
-        if (Util.isJwtTokenExpired(this)) {
-            Intent jwtRemoveBroadcastInokerIntent = new Intent("JWT_REMOVE");
-            sendBroadcast(jwtRemoveBroadcastInokerIntent);
-        }
-
 
         this.addHomeButton = findViewById(R.id.add_home_btn);
 

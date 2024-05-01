@@ -7,23 +7,23 @@ import android.content.SharedPreferences;
 
 import com.home_rental.home_rental_management.HomeActivity;
 
-class JwtTokenExpiryBroadcaster extends BroadcastReceiver {
+public class JwtTokenExpiryBroadcaster extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("session_user",Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
 
-        if (intent.getAction().equals("JWT_REMOVE")) {
-            SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
-            sharedPreferencesEditor.remove("session");
-            sharedPreferencesEditor.remove("access_token");
-            sharedPreferencesEditor.remove("email");
-            sharedPreferencesEditor.commit();
+        if (sharedPreferences.getString("session","").equals("true")) {
+            if (intent.getAction().equals("JWT_REMOVE")) {
+                SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
+                sharedPreferencesEditor.remove("session");
+                sharedPreferencesEditor.remove("access_token");
+                sharedPreferencesEditor.remove("email");
+                sharedPreferencesEditor.commit();
 
-
-            Intent homeActivityIntent = new Intent(context, HomeActivity.class);
-            homeActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(homeActivityIntent);
+            }
+        } else {
+            System.out.println("User session is not true : ");
         }
     }
 }

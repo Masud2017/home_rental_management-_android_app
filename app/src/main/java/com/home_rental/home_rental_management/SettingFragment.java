@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.home_rental.home_rental_management.custom_broadcasts.JwtTokenExpiryBroadcaster;
+
 public class SettingFragment extends Fragment {
     private TextView logoutText = null;
 
@@ -35,12 +37,13 @@ public class SettingFragment extends Fragment {
             SharedPreferences sharedPreferences = SettingFragment.this.getContext().getSharedPreferences("user_session", Context.MODE_PRIVATE);
 
             if (sharedPreferences.getString("session","").equals("true")) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("access_token");
-                editor.remove("session");
-                editor.commit();
+
+                Intent jwtRemoveBroadcastInokerIntent = new Intent(SettingFragment.this.getContext(),JwtTokenExpiryBroadcaster.class);
+                jwtRemoveBroadcastInokerIntent.setAction("JWT_REMOVE");
+                getActivity().sendBroadcast(jwtRemoveBroadcastInokerIntent);
 
                 Intent intent = new Intent(SettingFragment.this.getActivity(), HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 SettingFragment.this.getActivity().finish();
             }
