@@ -99,9 +99,12 @@ public class LoginFragment extends Fragment {
                 SharedPreferences.Editor sessionStorageEditor = sessionStorage.edit();
                 sessionStorageEditor.putString("session", "true");
                 sessionStorageEditor.putString("access_token", userAuthResponse.getAccess_token());
+
+                sessionStorageEditor.putString("exp",userAuthResponse.getExpires().toString());
                 sessionStorageEditor.commit();
 
                 Intent intent = new Intent(LoginFragment.this.getActivity(), HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 LoginFragment.this.getActivity().finish();
 
