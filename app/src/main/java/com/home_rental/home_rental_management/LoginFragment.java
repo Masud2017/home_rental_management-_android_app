@@ -18,7 +18,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.home_rental.home_rental_management.Models.Role;
 import com.home_rental.home_rental_management.Models.User;
 import com.home_rental.home_rental_management.Models.UserAuthResponse;
 import com.home_rental.home_rental_management.services.Api;
@@ -33,6 +35,7 @@ public class LoginFragment extends Fragment {
     private EditText password = null;
     private SharedPreferences sessionStorage = null;
     private AlertDialog.Builder alertDialogBuilder = null;
+    private TextView signupLink = null;
     private Logger logger = Logger.getLogger("LoginFragment.class");
 
     public LoginFragment() {
@@ -48,12 +51,20 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceData) {
         super.onViewCreated(view,savedInstanceData);
         Api api = new Api();
 
         this.login_btn = view.findViewById(R.id.login_btn);
+        this.signupLink = view.findViewById(R.id.create_account_link);
         this.alertDialogBuilder = new AlertDialog.Builder(this.getContext());
+
+
+        this.signupLink.setOnClickListener(view2->{
+            Intent intent = new Intent(LoginFragment.this.getContext(), SignupActivity.class);
+            startActivity(intent);
+        });
 
         this.login_btn.setOnClickListener( vi -> {
             username = view.findViewById(R.id.username);
@@ -90,8 +101,10 @@ public class LoginFragment extends Fragment {
 
 
             Api.AuthenticationTask authenticationTask = api.new AuthenticationTask().setCredential(user);
+            Api.MyRoleAsyncTask myRoleAsyncTask = api.new MyRoleAsyncTask().setContext(getContext());
             try {
                 UserAuthResponse userAuthResponse = authenticationTask.execute().get();
+                Role roleResponse = myRoleAsyncTask.execute().get();
 
                 LoginFragment.this.logger.info("Auth token is ; "+userAuthResponse.getAccess_token());
                 sessionStorage = getActivity().getSharedPreferences("user_session", MODE_PRIVATE);
@@ -99,6 +112,7 @@ public class LoginFragment extends Fragment {
                 SharedPreferences.Editor sessionStorageEditor = sessionStorage.edit();
                 sessionStorageEditor.putString("session", "true");
                 sessionStorageEditor.putString("access_token", userAuthResponse.getAccess_token());
+                sessionStorageEditor.putString("role",roleResponse.getRole());
 
                 sessionStorageEditor.putString("exp",userAuthResponse.getExpires().toString());
                 sessionStorageEditor.commit();

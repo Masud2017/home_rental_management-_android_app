@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.home_rental.home_rental_management.Models.HomeModelResponse;
@@ -42,20 +44,26 @@ public class HomeInfoActivity extends AppCompatActivity {
 //            this.homeInfoPrice.setText(homeModelResponse.getPrice().toString());
 
 
-            this.deleteButton.setOnClickListener(view2 -> {
-                Api.DeleteHomeById deleteHomeByIdAsyncTask = api.new DeleteHomeById().setHomeId(home_id).setContext(this);
-                try {
-                    deleteHomeByIdAsyncTask.execute().get();
-                    Intent intent = new Intent(this,HomeActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // pulling that already running activity instead of creating a new one to the activity stack
-                    startActivity(intent);
-                    finish();
-                } catch (ExecutionException e) {
-                    throw new RuntimeException(e);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            SharedPreferences sharedPreferences = getSharedPreferences("user_session",MODE_PRIVATE);
+            if (sharedPreferences.getString("role","").equals("seller")) {
+                this.deleteButton.setVisibility(View.VISIBLE);
+
+                this.deleteButton.setOnClickListener(view2 -> {
+                    Api.DeleteHomeById deleteHomeByIdAsyncTask = api.new DeleteHomeById().setHomeId(home_id).setContext(this);
+                    try {
+                        deleteHomeByIdAsyncTask.execute().get();
+                        Intent intent = new Intent(this,HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // pulling that already running activity instead of creating a new one to the activity stack
+                        startActivity(intent);
+                        finish();
+                    } catch (ExecutionException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+
 
         } catch (ExecutionException e) {
             throw new RuntimeException(e);

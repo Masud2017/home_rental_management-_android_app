@@ -1,11 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignupActivity">
+    tools:context=".SignupActivity"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/bg"
+    android:padding="5dp"
+    >
 
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/cap_image"
+        android:layout_width="150dp"
+        android:src="@drawable/ic_launcher_foreground"
+        android:layout_height="150dp"
+        android:background="@drawable/profile_image_style"
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="5dp"
+        android:id="@+id/camera_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Capture image"/>
+
+    <EditText
+        android:layout_marginTop="20dp"
+        android:id="@+id/name_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter full name"
+        />
+    <EditText
+        android:layout_marginTop="10dp"
+        android:id="@+id/username_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter username"
+        />
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:id="@+id/password_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter password"
+        />
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:id="@+id/retype_password_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Retype your password"
+        />
+    <RadioGroup
+        android:id="@+id/role_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+
+        >
+
+        <RadioButton
+            android:id="@+id/role_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="user"
+            android:checked="true"
+            />
+        <RadioButton
+            android:id="@+id/role_seller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="seller"
+            />
+        <RadioButton
+            android:id="@+id/role_root"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="root"
+            />
+    </RadioGroup>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="35dp"
+        android:id="@+id/singup_btn"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Signup"
+        />
+
+
+</LinearLayout>

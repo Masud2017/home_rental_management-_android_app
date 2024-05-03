@@ -203,4 +203,60 @@ public class Api {
             }
         }
     }
+
+    @SuppressWarnings("deprecation")
+    public class SignupUserAsyncTask extends AsyncTask<String, Void, Void> {
+        private User user = null;
+        private String role = null;
+
+        public SignupUserAsyncTask setUser(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public SignupUserAsyncTask setRole(String role){
+            this.role = role;
+            return this;
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            MediaType JSON = MediaType.get("application/json");
+            Gson gson = new Gson();
+
+            RequestBody body = RequestBody.create(JSON,gson.toJson(this.user));
+            Request req = null;
+
+            switch (this.role) {
+                case "user":
+                    req = new Request.Builder()
+                        .post(body)
+                        .url(baseUrl + "/adduser")
+                        .build();
+                    break;
+
+                case "seller":
+                    req = new Request.Builder()
+                        .post(body)
+                        .url(baseUrl + "/addselleruser")
+                        .build();
+                    break;
+                case "root":
+                    req = new Request.Builder()
+                        .post(body)
+                        .url(baseUrl + "/addrootuser")
+                        .build();
+                    break;
+            }
+
+            try {
+                client.newCall(req).execute();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+
+            return null;
+        }
+    }
 }
