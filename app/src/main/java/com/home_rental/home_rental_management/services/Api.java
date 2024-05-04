@@ -2,26 +2,45 @@ package com.home_rental.home_rental_management.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.widget.ImageView;
 
+import androidx.annotation.AnyThread;
+import androidx.camera.core.internal.ByteBufferOutputStream;
 import androidx.room.Delete;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.home_rental.home_rental_management.Models.Home;
 import com.home_rental.home_rental_management.Models.HomeModelResponse;
+import com.home_rental.home_rental_management.Models.MyProfile;
 import com.home_rental.home_rental_management.Models.Role;
 import com.home_rental.home_rental_management.Models.User;
 import com.home_rental.home_rental_management.Models.UserAuthResponse;
 
+//import org.json.simple.JSONObject;
+//import org.json.simple.parser.JSONParser;
+//import org.json.simple.parser.ParseException;
+
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.lang.ref.ReferenceQueue;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -196,6 +215,10 @@ public class Api {
                 Gson gson = gsonBuilder.create();
                 Role role = gson.fromJson(responseJson,Role.class);
 
+                System.out.println("Printing from Api : role : "+role.getRole());
+                System.out.println("and json Printing from Api : role : "+responseJson);
+                System.out.println("and jwt token Printing from Api : role : "+jwtToken);
+
                 return role;
 
             } catch (IOException e) {
@@ -251,11 +274,115 @@ public class Api {
 
             try {
                 client.newCall(req).execute();
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public class AddProfileImageAsyncTask extends AsyncTask<String, Void,Void> {
+        private ImageView imageView;
+        private String email;
+
+        public AddProfileImageAsyncTask setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public AddProfileImageAsyncTask setImageView(ImageView imageView) {
+            this.imageView = imageView;
+            return this;
+        }
+
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            ByteArrayOutputStream barrout = new ByteArrayOutputStream();
+            Bitmap image = ((BitmapDrawable)this.imageView.getDrawable()).getBitmap();
+            image.compress(Bitmap.CompressFormat.JPEG,100,barrout);
+
+            byte[] byteArray = barrout.toByteArray();
+
+            Random random = new Random();
+            String filename = String.valueOf(random.nextInt());
+
+
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("image",filename,RequestBody.create(MediaType.parse("image/*"),byteArray))
+                    .addFormDataPart("email",this.email)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .post(requestBody)
+                    .url(baseUrl + "/upload_profile_pic")
+                    .build();
+
+            try {
+                client.newCall(request).execute();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
+            return null;
+        }
+    }
 
+    @SuppressWarnings("deprecation")
+    // need to change
+    public class MyProfileAsyncTask extends AsyncTask<String,Void, MyProfile> {
+        private Context context;
+
+        public MyProfileAsyncTask setContext(Context context) {
+            this.context = context;
+            return this;
+        }
+
+        @Override
+        protected MyProfile doInBackground(String... strings) {
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+            String access_token = sharedPreferences.getString("access_token","");
+
+            Request request = new Request.Builder()
+                    .header("Authorization","Bearer "+access_token)
+                    .url(baseUrl + "/myprofile")
+                    .build();
+
+            try {
+                Response res = client.newCall(request).execute();
+                String resStr = res.body().string();
+
+                Gson gson = new Gson();
+                System.out.println("Printing the value of profile : "+resStr);
+                MyProfile myProfile = gson.fromJson(resStr,MyProfile.class);
+
+                return myProfile;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public class UpdateWalletAsyncTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public class AddRechargeHistoryAsyncTask extends  AsyncTask<String, Void, Void> {
+
+
+        @Override
+        protected Void doInBackground(String... strings) {
             return null;
         }
     }

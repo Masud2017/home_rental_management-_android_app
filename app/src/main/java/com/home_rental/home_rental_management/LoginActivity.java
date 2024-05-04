@@ -79,7 +79,8 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 UserAuthResponse userAuthResponse = authenticationTask.execute().get();
 
-                LoginActivity.this.logger.info("Auth token is ; "+userAuthResponse.getAccess_token());
+                LoginActivity.this.logger.info("Auth token  ; "+userAuthResponse.getAccess_token());
+
             } catch (ExecutionException e) {
                 throw new RuntimeException(e);
             } catch (InterruptedException e) {

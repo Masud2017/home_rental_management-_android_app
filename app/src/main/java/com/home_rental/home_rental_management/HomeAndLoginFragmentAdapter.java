@@ -41,7 +41,7 @@ public class HomeAndLoginFragmentAdapter extends FragmentStateAdapter {
         } else if (position == 1) {
             Fragment fragment;
             if (sharedPreferences.getString("session","").equals("true")) {
-                fragment= new UserDashBoardFragment();
+                fragment= new UserDashboardFragment();
                 Bundle args = new Bundle();
                 args.putString("Login","Tab "+(position+1));
                 fragment.setArguments(args);

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
-    tools:context=".UserDashBoardActivity"
+    tools:context=".UserDashboardFragment"
     android:padding="15dp"
     android:orientation="vertical"
     >
@@ -18,13 +18,17 @@
         android:id="@+id/profile_layout"
         >
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/rd_img"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:background="@drawable/profile_image_style"
             android:src="@drawable/baseline_account_circle_24"
+            android:scaleType="fitXY"
+            android:clipToOutline="true"
             />
 
         <TextView
+            android:id="@+id/rd_name"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +50,7 @@
             android:textColor="@color/white"
             />
     </LinearLayout>
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -54,17 +58,23 @@
         android:layout_below="@id/profile_layout"
         >
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/user_dash_board_tab"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            />
+        <!--        <com.google.android.material.tabs.TabLayout-->
+        <!--            android:id="@+id/user_dash_board_tab"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:layout_alignParentTop="true"-->
+        <!--            />-->
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/user_dash_board_pager"
+        <!--        <androidx.viewpager2.widget.ViewPager2-->
+        <!--            android:id="@+id/user_dash_board_pager"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"/>-->
+
+        <GridView
+            android:id="@+id/user_inventory_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            />
 
     </RelativeLayout>
 

@@ -58,10 +58,10 @@
             android:layout_alignParentBottom="true"
             >
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/home_delete_btn"
+                android:id="@+id/home_buy_btn"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:text="Delete"
+                android:text="Buy"
                 android:background="@color/white"
                 android:visibility="gone"
                 />

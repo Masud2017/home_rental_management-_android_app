@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WalletRechargeActivity"
+    android:orientation="vertical"
+    android:background="@color/bg"
+    android:padding="5dp"
+    android:gravity="center"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Payment Platform"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        />
+
+    <Spinner
+        android:id="@+id/platform_list"
+        android:layout_marginTop="15dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:textAlignment="center"
+        />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recharge amount"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        />
+
+    <EditText
+        android:id="@+id/recharge_amount"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter the recharge amount"
+        android:inputType="number"
+        />
+    <Button
+        android:layout_marginTop="35dp"
+        android:id="@+id/recharge_wallet_btn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Recharge"/>
+
+</LinearLayout>

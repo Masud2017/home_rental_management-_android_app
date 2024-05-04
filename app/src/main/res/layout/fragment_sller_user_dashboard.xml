@@ -54,17 +54,23 @@
         android:layout_below="@id/profile_layout"
         >
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/user_dash_board_tab"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            />
+        <!--        <com.google.android.material.tabs.TabLayout-->
+        <!--            android:id="@+id/user_dash_board_tab"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:layout_alignParentTop="true"-->
+        <!--            />-->
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/user_dash_board_pager"
+        <!--        <androidx.viewpager2.widget.ViewPager2-->
+        <!--            android:id="@+id/user_dash_board_pager"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"/>-->
+
+        <GridView
+            android:id="@+id/seller_user_home_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            />
 
     </RelativeLayout>
 

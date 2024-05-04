@@ -41,6 +41,17 @@
         </LinearLayout>
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/wallet_setting"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1500 BDT"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,10 +60,13 @@
         android:layout_marginTop="20dp"
 
         >
+
         <TextView
+            android:id="@+id/wallet_recharge_setting"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Account"
+            android:text="Wallet recharge"
             android:textSize="25dp"
             android:textStyle="bold"
             android:background="@color/white"
@@ -61,10 +75,35 @@
             />
 
         <TextView
+            android:id="@+id/transaction_history_setting"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Wallet"
+            android:text="Transaction history"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            />
+        <TextView
+            android:id="@+id/recharge_history"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Wallet recharge history"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            />
+        <TextView
+            android:id="@+id/user_history_setting"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Address"
             android:textSize="25dp"
             android:textStyle="bold"
             android:background="@color/white"

@@ -18,7 +18,7 @@ public class HomeInfoActivity extends AppCompatActivity {
     private TextView homeInfoHeader = null;
     private TextView homeInfoDesc = null;
     private TextView homeInfoPrice = null;
-    private AppCompatButton deleteButton = null;
+    private AppCompatButton buyButton = null;
     @Override
     @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class HomeInfoActivity extends AppCompatActivity {
         this.homeInfoHeader = findViewById(R.id.home_info_header);
         this.homeInfoDesc = findViewById(R.id.home_info_desc);
         this.homeInfoPrice = findViewById(R.id.home_info_price);
-        this.deleteButton = findViewById(R.id.home_delete_btn);
+        this.buyButton = findViewById(R.id.home_buy_btn);
 
         Bundle extras = getIntent().getExtras();
         String home_id = extras.getString("home_id");
@@ -45,10 +45,11 @@ public class HomeInfoActivity extends AppCompatActivity {
 
 
             SharedPreferences sharedPreferences = getSharedPreferences("user_session",MODE_PRIVATE);
-            if (sharedPreferences.getString("role","").equals("seller")) {
-                this.deleteButton.setVisibility(View.VISIBLE);
+            System.out.println("Printing the role of the user : "+sharedPreferences.getString("role",""));
+            if (sharedPreferences.getString("role","").equals("user")) {
+                this.buyButton.setVisibility(View.VISIBLE);
 
-                this.deleteButton.setOnClickListener(view2 -> {
+                this.buyButton.setOnClickListener(view2 -> {
                     Api.DeleteHomeById deleteHomeByIdAsyncTask = api.new DeleteHomeById().setHomeId(home_id).setContext(this);
                     try {
                         deleteHomeByIdAsyncTask.execute().get();

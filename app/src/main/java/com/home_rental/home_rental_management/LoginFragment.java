@@ -101,10 +101,10 @@ public class LoginFragment extends Fragment {
 
 
             Api.AuthenticationTask authenticationTask = api.new AuthenticationTask().setCredential(user);
-            Api.MyRoleAsyncTask myRoleAsyncTask = api.new MyRoleAsyncTask().setContext(getContext());
+
             try {
                 UserAuthResponse userAuthResponse = authenticationTask.execute().get();
-                Role roleResponse = myRoleAsyncTask.execute().get();
+
 
                 LoginFragment.this.logger.info("Auth token is ; "+userAuthResponse.getAccess_token());
                 sessionStorage = getActivity().getSharedPreferences("user_session", MODE_PRIVATE);
@@ -112,9 +112,17 @@ public class LoginFragment extends Fragment {
                 SharedPreferences.Editor sessionStorageEditor = sessionStorage.edit();
                 sessionStorageEditor.putString("session", "true");
                 sessionStorageEditor.putString("access_token", userAuthResponse.getAccess_token());
-                sessionStorageEditor.putString("role",roleResponse.getRole());
+
+
 
                 sessionStorageEditor.putString("exp",userAuthResponse.getExpires().toString());
+                sessionStorageEditor.commit();
+
+
+                Api.MyRoleAsyncTask myRoleAsyncTask = api.new MyRoleAsyncTask().setContext(LoginFragment.this.getContext());
+                Role roleResponse = myRoleAsyncTask.execute().get();
+                System.out.println("Printing the role from login fregment : "+roleResponse.getRole());
+                sessionStorageEditor.putString("role",roleResponse.getRole());
                 sessionStorageEditor.commit();
 
                 Intent intent = new Intent(LoginFragment.this.getActivity(), HomeActivity.class);

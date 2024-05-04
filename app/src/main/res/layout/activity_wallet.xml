@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WalletActivity"
+    android:background="@color/bg"
+    android:padding="5dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    >
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:padding="25dp"
+        android:src="@drawable/piggy_bank"
+        android:background="@drawable/profile_image_style"
+        android:foreground="@drawable/profile_image_style"
+        />
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1500 BDT"
+        android:textSize="30dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        >
+        <Button
+            android:id="@+id/recharge_wallet_nav_btn"
+            android:layout_width="170dp"
+            android:text="Recharge"
+            android:layout_height="50dp"
+
+            />
+    </LinearLayout>
+</LinearLayout>

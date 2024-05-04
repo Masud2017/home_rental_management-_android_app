@@ -2,13 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.CAMERA" />
 
-
-    <uses-permission android:name="android.permission.CAMERA"/>
-
-    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -25,6 +24,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Home_Rental_Management"
         tools:targetApi="31">
+        <activity
+            android:name=".SellerUserDashBoardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WalletRechargeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WalletActivity"
+            android:exported="false" />
         <activity
             android:name=".HomeInfoActivity"
             android:exported="false" />
@@ -58,8 +66,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <receiver android:name="com.home_rental.home_rental_management.custom_broadcasts.JwtTokenExpiryBroadcaster"
+
+        <receiver
+            android:name=".custom_broadcasts.JwtTokenExpiryBroadcaster"
             android:exported="false">
             <intent-filter>
                 <action android:name="JWT_REMOVE" />
@@ -73,7 +82,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 

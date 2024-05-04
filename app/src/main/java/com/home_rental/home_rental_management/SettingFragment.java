@@ -17,6 +17,7 @@ import com.home_rental.home_rental_management.custom_broadcasts.JwtTokenExpiryBr
 
 public class SettingFragment extends Fragment {
     private TextView logoutText = null;
+    private TextView walletRecharge = null;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -32,6 +33,7 @@ public class SettingFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         this.logoutText = view.findViewById(R.id.profile_logout);
+        this.walletRecharge = view.findViewById(R.id.wallet_recharge_setting);
 
         this.logoutText.setOnClickListener(view1 -> {
             SharedPreferences sharedPreferences = SettingFragment.this.getContext().getSharedPreferences("user_session", Context.MODE_PRIVATE);
@@ -47,6 +49,12 @@ public class SettingFragment extends Fragment {
                 startActivity(intent);
                 SettingFragment.this.getActivity().finish();
             }
+        });
+
+        this.walletRecharge.setOnClickListener(view2 -> {
+            Intent intent = new Intent(SettingFragment.this.getContext(),WalletActivity.class);
+
+            startActivity(intent);
         });
     }
 

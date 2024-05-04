@@ -55,6 +55,17 @@ public class SignupActivity extends AppCompatActivity{
 
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
+    @SuppressWarnings("deprecation")
+    public void uploadImageToTheServer(String email) throws ExecutionException, InterruptedException {
+        Api api = new Api();
+
+        Api.AddProfileImageAsyncTask addProfileImageAsyncTask = api.new AddProfileImageAsyncTask();
+        addProfileImageAsyncTask.setImageView(this.imageView);
+        addProfileImageAsyncTask.setEmail(email);
+        addProfileImageAsyncTask.execute().get();
+    }
+
+
     @Override
     @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +112,8 @@ public class SignupActivity extends AppCompatActivity{
                     try {
                         signupUserAsyncTask.execute().get();
 
+                        this.uploadImageToTheServer(user.getEmail());
+
                         Intent intent = new Intent(this,HomeActivity.class);
                         startActivity(intent);
 
@@ -130,6 +143,7 @@ public class SignupActivity extends AppCompatActivity{
 
                     try {
                         signupUserAsyncTask.execute().get();
+                        this.uploadImageToTheServer(user.getEmail());
 
                         Intent intent = new Intent(this,HomeActivity.class);
                         startActivity(intent);
@@ -160,6 +174,7 @@ public class SignupActivity extends AppCompatActivity{
 
                     try {
                         signupUserAsyncTask.execute().get();
+                        this.uploadImageToTheServer(user.getEmail());
 
 
                         Intent intent = new Intent(this,HomeActivity.class);

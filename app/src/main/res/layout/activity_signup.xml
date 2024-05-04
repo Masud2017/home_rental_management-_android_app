@@ -16,8 +16,12 @@
         android:id="@+id/cap_image"
         android:layout_width="150dp"
         android:src="@drawable/ic_launcher_foreground"
+
         android:layout_height="150dp"
         android:background="@drawable/profile_image_style"
+        android:foreground="@drawable/profile_image_style"
+        android:clipToOutline="true"
+        android:scaleType="fitXY"
         />
 
     <androidx.appcompat.widget.AppCompatButton
