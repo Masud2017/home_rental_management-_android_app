@@ -740,4 +740,38 @@ public class Api {
             }
         }
     }
+
+    @SuppressWarnings("deprecation")
+    public class CancelHomeInventory extends AsyncTask<String, Void, Void> {
+        private Context context;
+        private String inventoryId;
+
+        public CancelHomeInventory setInventoryId(String inventoryId) {
+            this.inventoryId = inventoryId;
+            return this;
+        }
+
+        public CancelHomeInventory setContext (Context context) {
+            this.context = context;
+            return this;
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+            String jwtToken = sharedPreferences.getString("access_token","");
+
+            Request rq = new Request.Builder()
+                    .header("Authorization", "Bearer "+jwtToken)
+                    .url(baseUrl +"/cancelhome/"+this.inventoryId)
+                    .build();
+
+            try {
+                client.newCall(rq).execute();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+        }
+    }
 }

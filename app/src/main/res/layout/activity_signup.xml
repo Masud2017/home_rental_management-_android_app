@@ -83,12 +83,12 @@
             android:layout_height="wrap_content"
             android:text="seller"
             />
-        <RadioButton
-            android:id="@+id/role_root"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="root"
-            />
+<!--        <RadioButton-->
+<!--            android:id="@+id/role_root"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="root"-->
+<!--            />-->
     </RadioGroup>
 
     <androidx.appcompat.widget.AppCompatButton

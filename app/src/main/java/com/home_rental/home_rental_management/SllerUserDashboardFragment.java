@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.home_rental.home_rental_management.Models.MyProfile;
 import com.home_rental.home_rental_management.adapters.CardListAdapter;
+import com.home_rental.home_rental_management.adapters.CardListAdapterForSeller;
 import com.home_rental.home_rental_management.services.Api;
 
 import org.w3c.dom.Text;
@@ -80,7 +81,7 @@ public class SllerUserDashboardFragment extends Fragment implements SwipeRefresh
         });
 
         try {
-            CardListAdapter adapter = new CardListAdapter(getContext()).setUserFlag(true).setForSeller(true);
+            CardListAdapterForSeller adapter = new CardListAdapterForSeller(getContext());
             this.gridView.setAdapter(adapter);
         } catch (ExecutionException e) {
             throw new RuntimeException(e);

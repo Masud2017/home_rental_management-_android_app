@@ -19,6 +19,7 @@ public class JwtTokenExpiryBroadcaster extends BroadcastReceiver {
                 sharedPreferencesEditor.remove("session");
                 sharedPreferencesEditor.remove("access_token");
                 sharedPreferencesEditor.remove("email");
+                sharedPreferencesEditor.remove("role");
                 sharedPreferencesEditor.commit();
 
             }

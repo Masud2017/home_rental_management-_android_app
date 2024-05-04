@@ -70,6 +70,12 @@ public class SettingFragment extends Fragment {
         }
 
         SharedPreferences sharedPreferencesBalance = getContext().getSharedPreferences("user_session",Context.MODE_PRIVATE);
+
+        if (sharedPreferencesBalance.getString("role","").equals("seller")) {
+            this.walletHistory.setVisibility(View.GONE);
+            this.walletRecharge.setVisibility(View.GONE);
+        }
+
         String balance = sharedPreferencesBalance.getString("balance","");
 
         this.settingBalance.setText(balance + " BDT");
