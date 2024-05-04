@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.home_rental.home_rental_management.Models.MyProfile;
 import com.home_rental.home_rental_management.adapters.CardListAdapter;
+import com.home_rental.home_rental_management.adapters.InventoryListAdapter;
 import com.home_rental.home_rental_management.services.Api;
 
 import java.util.concurrent.ExecutionException;
@@ -52,9 +53,9 @@ public class UserDashboardFragment extends Fragment {
         this.inventoryList = view.findViewById(R.id.user_inventory_list);
 
         try {
-            CardListAdapter cardListAdapter = new CardListAdapter(getContext());
-            cardListAdapter.setUserFlag(true);
-            this.inventoryList.setAdapter(cardListAdapter);
+            InventoryListAdapter inventoryListAdapter = new InventoryListAdapter(getContext());
+
+            this.inventoryList.setAdapter(inventoryListAdapter);
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {

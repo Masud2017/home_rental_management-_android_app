@@ -25,7 +25,6 @@ import java.util.concurrent.ExecutionException;
 
 public class CardListAdapter extends BaseAdapter implements View.OnClickListener {
     private Boolean forUser = false;
-    private Boolean forInven = false;
     private Boolean forSeller = false;
     private List<HomeModelResponse> homeModelResponseList;
     private LayoutInflater layoutInflater = null;
@@ -40,22 +39,17 @@ public class CardListAdapter extends BaseAdapter implements View.OnClickListener
         return this;
     }
 
-    public CardListAdapter setForInven(Boolean forInven){
-        this.forInven = forInven;
-        return this;
-    }
+
 
     @SuppressWarnings("deprecation")
     public  CardListAdapter(Context ctx) throws ExecutionException, InterruptedException {
         if (this.forUser == false) {
             this.homeModelResponseList = new AsyncApiCall().execute("").get();
 
-        } else if (this.forUser && this.forInven == false && forSeller) {
+        } else if (this.forUser && forSeller) {
             Api api = new Api();
             Api.MyHomeListAsyncTask homeListAsyncTask = api.new MyHomeListAsyncTask().setContext(ctx);
             this.homeModelResponseList = homeListAsyncTask.execute().get();
-
-        } else if (this.forUser && this.forInven) {
 
         }
         this.layoutInflater = LayoutInflater.from(ctx);

@@ -7,36 +7,29 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
-import androidx.annotation.AnyThread;
-import androidx.camera.core.internal.ByteBufferOutputStream;
-import androidx.room.Delete;
+import androidx.room.Update;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.home_rental.home_rental_management.AddHomeActivity;
 import com.home_rental.home_rental_management.Models.Home;
+import com.home_rental.home_rental_management.Models.HomeInventory;
 import com.home_rental.home_rental_management.Models.HomeModelResponse;
 import com.home_rental.home_rental_management.Models.MyProfile;
 import com.home_rental.home_rental_management.Models.Role;
+import com.home_rental.home_rental_management.Models.TransactionHistory;
 import com.home_rental.home_rental_management.Models.User;
 import com.home_rental.home_rental_management.Models.UserAuthResponse;
+import com.home_rental.home_rental_management.Models.WalletHistory;
+import com.home_rental.home_rental_management.Models.WalletInfo;
 
 //import org.json.simple.JSONObject;
 //import org.json.simple.parser.JSONParser;
 //import org.json.simple.parser.ParseException;
 
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.lang.ref.ReferenceQueue;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -50,7 +43,7 @@ import okhttp3.ResponseBody;
 
 public class Api {
     private Integer port = 4444;
-    private String baseUrl = "https://9494-103-112-236-90.ngrok-free.app";
+    private String baseUrl = "https://5b09-103-112-236-90.ngrok-free.app";
     private OkHttpClient client = null;
 
     public Api() {
@@ -371,10 +364,82 @@ public class Api {
 
     @SuppressWarnings("deprecation")
     public class UpdateWalletAsyncTask extends AsyncTask<String, Void, Void> {
+        private String platformName = null;
+        private String rechargeAmount = null;
+        private Context context = null;
+
+        public UpdateWalletAsyncTask setPlatFormName(String platFormName){
+            this.platformName = platFormName;
+            return this;
+        }
+
+        public UpdateWalletAsyncTask setRechargeAmount(String rechargeAmount) {
+            this.rechargeAmount = rechargeAmount;
+            return this;
+        }
+        public UpdateWalletAsyncTask setContext(Context context) {
+            this.context = context;
+            return this;
+        }
 
         @Override
         protected Void doInBackground(String... strings) {
+            WalletInfo walletInfo = new WalletInfo();
+            walletInfo.setId(0);
+            walletInfo.setBalance(Integer.valueOf(this.rechargeAmount));
+
+            Gson gson = new Gson();
+            String walletInfoJson = gson.toJson(walletInfo);
+            MediaType JSON = MediaType.get("application/json");
+
+            RequestBody reqBody = RequestBody.create(JSON,walletInfoJson);
+
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+
+            String jwtToken = sharedPreferences.getString("access_token","");
+
+            Request req = new Request.Builder()
+                    .header("Authorization", "Bearer "+jwtToken)
+                    .patch(reqBody)
+                    .url(baseUrl+"/updatewallet")
+                    .build();
+
+            try {
+                client.newCall(req).execute();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return null;
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public class GetWalletInfo extends AsyncTask<String,Void, WalletInfo> {
+        private Context context;
+
+        public GetWalletInfo setContext(Context context) {
+            this.context = context;
+            return this;
+        }
+        @Override
+        protected WalletInfo doInBackground(String... strings) {
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+            String jwtToken = sharedPreferences.getString("access_token","");
+            Request req = new Request.Builder()
+                    .header("Authorization", "Bearer "+jwtToken)
+                    .url(baseUrl+"/getwallet")
+                    .build();
+
+            try {
+                Response res =client.newCall(req).execute();
+                String resStr = res.body().string();
+                Gson gson = new Gson();
+                WalletInfo walletInfo = gson.fromJson(resStr,WalletInfo.class);
+
+                return walletInfo;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -495,6 +560,149 @@ public class Api {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            return null;
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public class HomeInventoryList extends AsyncTask<String, Void,List<HomeInventory>> {
+        private Context context;
+
+        public HomeInventoryList setContext(Context context) {
+            this.context = context;
+            return this;
+        }
+        @Override
+        protected List<HomeInventory> doInBackground(String... strings) {
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+            String jwtToken = sharedPreferences.getString("access_token","");
+
+            Request req = new Request.Builder()
+                    .header("Authorization", "Bearer "+jwtToken)
+                    .url(baseUrl+"/getinventorylist")
+                    .build();
+
+            try {
+                Type listType = new TypeToken<List<HomeInventory>>() {}.getType();
+                Response res = client.newCall(req).execute();
+                String resStr = res.body().string();
+                Gson gson = new Gson();
+                List<HomeInventory> homeInventoryList = gson.fromJson(resStr,listType);
+                return homeInventoryList;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+    @SuppressWarnings("deprecation")
+    public class BuyHome extends AsyncTask<String, Void,Void> {
+        private Context context;
+        private String homeId;
+
+        public BuyHome setHomeId(String homeId) {
+            this.homeId = homeId;
+            return this;
+        }
+
+        public BuyHome setContext(Context context) {
+            this.context = context;
+            return this;
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+            String jwtToken = sharedPreferences.getString("access_token","");
+
+            Request request = new Request.Builder()
+                    .header("Authorization","Bearer "+jwtToken)
+                    .url(baseUrl+ "/buyhome/"+this.homeId)
+                    .build();
+
+            try {
+                client.newCall(request).execute();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            return null;
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public class GetTransactionListAsyncTask extends AsyncTask<String, Void,List<TransactionHistory>> {
+        private Context context;
+
+        public GetTransactionListAsyncTask setContext(Context context) {
+            this.context = context;
+            return this;
+        }
+
+
+        @Override
+        protected List<TransactionHistory> doInBackground(String... strings) {
+            Type listType = new TypeToken<List<TransactionHistory>>() {}.getType();
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+
+            String jwtToken = sharedPreferences.getString("access_token","");
+
+            Request req = new Request.Builder()
+                    .header("Authorization", "Bearer "+jwtToken)
+                    .url(baseUrl+"/gettransactionhistories")
+                    .build();
+
+            try {
+                Response res = client.newCall(req).execute();
+                String resStr = res.body().string();
+
+                Gson gson = new Gson();
+                List<TransactionHistory> transactionHistoryList = gson.fromJson(resStr,listType);
+
+                return transactionHistoryList;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public class AddWalletHistoryAsyncTask extends AsyncTask<String,Void,Void> {
+        private WalletHistory walletHistory;
+        private Context context;
+
+        public AddWalletHistoryAsyncTask setWalletHistory(WalletHistory walletHistory) {
+            this.walletHistory = walletHistory;
+            return this;
+        }
+        public AddWalletHistoryAsyncTask setContext (Context context) {
+            this.context = context;
+            return this;
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+            String jwtToken = sharedPreferences.getString("access_token","");
+            Gson gson = new Gson();
+            String walletHistoryStr = gson.toJson(this.walletHistory);
+            MediaType JSON = MediaType.get("application/json");
+
+            RequestBody reqBody = RequestBody.create(JSON,walletHistoryStr);
+
+            Request req = new Request.Builder()
+                    .post(reqBody)
+                    .header("Authorization", "Bearer "+jwtToken)
+                    .url(baseUrl + "/addwalletrechargehistory")
+                    .build();
+
+
+            try {
+                client.newCall(req).execute();
+            } catch (IOException e) {
+                throw new RuntimeException(e);            }
+
             return null;
         }
     }

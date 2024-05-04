@@ -2,11 +2,16 @@ package com.home_rental.home_rental_management;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.camera.core.processing.SurfaceProcessorNode;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.home_rental.home_rental_management.Models.HomeModelResponse;
@@ -20,6 +25,8 @@ public class HomeInfoActivity extends AppCompatActivity {
     private TextView homeInfoPrice = null;
     private AppCompatButton buyButton = null;
     private AppCompatButton deleteBtn = null;
+    private TextView homeInfoFlatCount = null;
+    private ImageView homeInfoImg = null;
 
     @Override
     @SuppressWarnings("deprecation")
@@ -34,6 +41,8 @@ public class HomeInfoActivity extends AppCompatActivity {
         this.homeInfoPrice = findViewById(R.id.home_info_price);
         this.buyButton = findViewById(R.id.home_buy_btn);
         this.deleteBtn = findViewById(R.id.home_delete_btn);
+        this.homeInfoFlatCount = findViewById(R.id.home_info_flat_count);
+        this.homeInfoImg = findViewById(R.id.home_info_img);
 
         Bundle extras = getIntent().getExtras();
         String home_id = extras.getString("home_id");
@@ -42,9 +51,17 @@ public class HomeInfoActivity extends AppCompatActivity {
         try {
             HomeModelResponse homeModelResponse = homeByIdAsyncCall.execute().get();
 
+
+            String profileImageBase64String = homeModelResponse.getImage();
+            System.out.println(profileImageBase64String);
+            byte[] imgByteArray = Base64.decode(profileImageBase64String,Base64.DEFAULT);
+            this.homeInfoImg.setImageBitmap(BitmapFactory.decodeByteArray(imgByteArray,0,imgByteArray.length));
+
             this.homeInfoHeader.setText(homeModelResponse.getName());
             this.homeInfoDesc.setText(homeModelResponse.getDesc());
-//            this.homeInfoPrice.setText(homeModelResponse.getPrice().toString());
+            System.out.println(homeModelResponse.getPrice());
+            this.homeInfoPrice.setText(homeModelResponse.getPrice() + " BDT");
+            this.homeInfoFlatCount.setText("Flat count : "+homeModelResponse.getFlat_count());
 
 
             SharedPreferences sharedPreferences = getSharedPreferences("user_session",MODE_PRIVATE);
@@ -53,6 +70,17 @@ public class HomeInfoActivity extends AppCompatActivity {
                 this.buyButton.setVisibility(View.VISIBLE);
 
                 this.buyButton.setOnClickListener(view2 -> {
+                    Api.BuyHome buyHomeAsyncTask = api.new BuyHome().setContext(this).setHomeId(home_id);
+                    try {
+                        buyHomeAsyncTask.execute().get();
+                        Intent afterBuyHome = new Intent(this,HomeActivity.class);
+                        startActivity(afterBuyHome);
+                        finish();
+                    } catch (ExecutionException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
 
                 });
 

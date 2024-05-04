@@ -78,15 +78,15 @@
 
     </RelativeLayout>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/add_home_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/add_button_background"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:padding="0dp"
-        android:src="@drawable/baseline_add_circle_outline_24"
-        />
+<!--    <androidx.appcompat.widget.AppCompatImageView-->
+<!--        android:id="@+id/add_home_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/add_button_background"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:padding="0dp"-->
+<!--        android:src="@drawable/baseline_add_circle_outline_24"-->
+<!--        />-->
 
 </RelativeLayout>

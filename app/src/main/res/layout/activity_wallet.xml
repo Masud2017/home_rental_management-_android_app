@@ -19,6 +19,7 @@
         android:foreground="@drawable/profile_image_style"
         />
     <TextView
+        android:id="@+id/wallet_page_balance"
         android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

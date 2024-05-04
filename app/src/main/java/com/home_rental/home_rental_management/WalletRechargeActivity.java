@@ -2,6 +2,8 @@ package com.home_rental.home_rental_management;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,6 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.home_rental.home_rental_management.Models.WalletHistory;
+import com.home_rental.home_rental_management.Models.WalletInfo;
+import com.home_rental.home_rental_management.services.Api;
+
+import java.util.concurrent.ExecutionException;
 
 public class WalletRechargeActivity extends AppCompatActivity {
     private Spinner platFormList = null;
@@ -39,7 +47,7 @@ public class WalletRechargeActivity extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                WalletRechargeActivity.this.platFormListItem = i;
+               platFormListItem = i;
             }
 
             @Override
@@ -49,9 +57,55 @@ public class WalletRechargeActivity extends AppCompatActivity {
 
 
         });
-        String rechargeAmountStr = this.rechargeAmount.getText().toString();
+
         this.rechargeBtn.setOnClickListener(view2 -> {
-            // send the http request
+            String rechargeAmountStr = this.rechargeAmount.getText().toString();
+            Api api = new Api();
+            Api.UpdateWalletAsyncTask updateWalletAsyncTask = null;
+            if (this.platFormListItem == 0) {
+                updateWalletAsyncTask = api.new UpdateWalletAsyncTask().setContext(this).setRechargeAmount(rechargeAmountStr).setPlatFormName("bkash");
+            } else if (this.platFormListItem == 1) {
+                updateWalletAsyncTask = api.new UpdateWalletAsyncTask().setContext(this).setRechargeAmount(rechargeAmountStr).setPlatFormName("nagad");
+            } else if (this.platFormListItem == 2) {
+                updateWalletAsyncTask = api.new UpdateWalletAsyncTask().setContext(this).setRechargeAmount(rechargeAmountStr).setPlatFormName("dbl");
+            }
+
+            try {
+                updateWalletAsyncTask.execute().get();
+
+                SharedPreferences sharedPreferences = getSharedPreferences("user_session",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                Api.GetWalletInfo getWalletInfo = api.new GetWalletInfo().setContext(this);
+                WalletInfo walletInfo = getWalletInfo.execute().get();
+
+
+                editor.putString("balance",walletInfo.getBalance() + "");
+                editor.commit();
+
+                WalletHistory walletHistory = new WalletHistory();
+                walletHistory.setMsg("Recharged " +rechargeAmountStr);
+                walletHistory.setPayment_amount(rechargeAmountStr);
+                if (platFormListItem == 0) {
+                    walletHistory.setPayment_platform("bkash");
+                } else if (platFormListItem == 1) {
+                    walletHistory.setPayment_platform("nagad");
+                } else if (platFormListItem == 2) {
+                    walletHistory.setPayment_platform("dbl");
+                }
+
+                Api.AddWalletHistoryAsyncTask addWalletHistoryAsyncTask = api.new AddWalletHistoryAsyncTask().setWalletHistory(walletHistory).setContext(this);
+                addWalletHistoryAsyncTask.execute().get();
+
+                Intent intent = new Intent(this,HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CustomInventoryListActivity"
+    >
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/inven_img"
+            android:layout_width="50dp"
+            android:src="@drawable/ic_launcher_foreground"
+            android:layout_height="50dp"/>
+
+        <TextView
+            android:id="@+id/inven_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home name"
+            android:layout_marginLeft="10dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/inven_flat_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Flat count"
+            android:layout_marginLeft="23dp"
+            />
+        <Button
+            android:id="@+id/inven_cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_marginLeft="50dp"
+            />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

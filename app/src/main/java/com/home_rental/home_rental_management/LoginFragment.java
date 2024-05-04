@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.home_rental.home_rental_management.Models.Role;
 import com.home_rental.home_rental_management.Models.User;
 import com.home_rental.home_rental_management.Models.UserAuthResponse;
+import com.home_rental.home_rental_management.Models.WalletInfo;
 import com.home_rental.home_rental_management.services.Api;
 
 import java.util.concurrent.ExecutionException;
@@ -123,6 +124,11 @@ public class LoginFragment extends Fragment {
                 Role roleResponse = myRoleAsyncTask.execute().get();
                 System.out.println("Printing the role from login fregment : "+roleResponse.getRole());
                 sessionStorageEditor.putString("role",roleResponse.getRole());
+                sessionStorageEditor.commit();
+
+                Api.GetWalletInfo getWalletInfo = api.new GetWalletInfo().setContext(getContext());
+                WalletInfo walletInfo = getWalletInfo.execute().get();
+                sessionStorageEditor.putString("balance",walletInfo.getBalance()+"");
                 sessionStorageEditor.commit();
 
                 Intent intent = new Intent(LoginFragment.this.getActivity(), HomeActivity.class);

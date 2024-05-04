@@ -3,21 +3,34 @@ package com.home_rental.home_rental_management;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.home_rental.home_rental_management.Models.MyProfile;
 import com.home_rental.home_rental_management.custom_broadcasts.JwtTokenExpiryBroadcaster;
+import com.home_rental.home_rental_management.services.Api;
 
+import java.util.concurrent.ExecutionException;
+
+@SuppressWarnings("deprecation")
 public class SettingFragment extends Fragment {
     private TextView logoutText = null;
     private TextView walletRecharge = null;
+    private TextView transactionHistory = null;
+    private TextView walletHistory = null;
+    private AppCompatImageView settingProfilePic = null;
+    private TextView settingName = null;
+    private TextView settingBalance = null;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -34,6 +47,38 @@ public class SettingFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         this.logoutText = view.findViewById(R.id.profile_logout);
         this.walletRecharge = view.findViewById(R.id.wallet_recharge_setting);
+        this.transactionHistory = view.findViewById(R.id.transaction_history_setting);
+        this.walletHistory = view.findViewById(R.id.recharge_history);
+        this.settingProfilePic = view.findViewById(R.id.setting_profile_pic);
+        this.settingName = view.findViewById(R.id.setting_name);
+        this.settingBalance = view.findViewById(R.id.setting_balance);
+
+        Api api = new Api();
+        Api.MyProfileAsyncTask myProfileAsyncTask = api.new MyProfileAsyncTask().setContext(getContext());
+        try {
+            MyProfile myProfile = myProfileAsyncTask.execute().get();
+
+            this.settingName.setText(myProfile.getName());
+            String profileImageBase64String = myProfile.getImage();
+            byte[] imgByteArray = Base64.decode(profileImageBase64String,Base64.DEFAULT);
+            this.settingProfilePic.setImageBitmap(BitmapFactory.decodeByteArray(imgByteArray,0,imgByteArray.length));
+
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        SharedPreferences sharedPreferencesBalance = getContext().getSharedPreferences("user_session",Context.MODE_PRIVATE);
+        String balance = sharedPreferencesBalance.getString("balance","");
+
+        this.settingBalance.setText(balance + " BDT");
+
+        this.transactionHistory.setOnClickListener(view2 -> {
+            Intent transactionIntent = new Intent(getContext(), TransactionHistoryActivity.class);
+            transactionIntent.putExtra("user_id",1);
+            startActivity(transactionIntent);
+        });
 
         this.logoutText.setOnClickListener(view1 -> {
             SharedPreferences sharedPreferences = SettingFragment.this.getContext().getSharedPreferences("user_session", Context.MODE_PRIVATE);
