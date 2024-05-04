@@ -16,9 +16,20 @@ public class HomeModelResponse {
     private String address;
     private String flat_count;
     private Boolean is_soled;
+    private String image;
+
+
 
     public long getId() {
         return id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setId(long id) {

@@ -1,9 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddHomeActivity">
+    tools:context=".AddHomeActivity"
+    android:background="@color/bg"
+    android:padding="5dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.AppCompatImageView
+        android:background="@drawable/profile_image_style"
+        android:foreground="@drawable/profile_image_style"
+        android:clipToOutline="true"
+        android:scaleType="fitXY"
+        android:id="@+id/add_home_img"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_launcher_foreground"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+
+        android:id="@+id/add_home_img_cap_btn"
+        android:layout_marginTop="15dp"
+        android:layout_width="250dp"
+        android:text="Capture image"
+        android:layout_height="wrap_content"/>
+
+     <EditText
+         android:layout_marginTop="10dp"
+         android:id="@+id/add_home_name"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:hint="Enter the home name"/>
+
+    <EditText
+        android:layout_marginTop="5dp"
+        android:id="@+id/add_home_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter the home description"/>
+    <EditText
+        android:layout_marginTop="5dp"
+        android:id="@+id/add_home_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter the home price"/>
+    <EditText
+        android:layout_marginTop="5dp"
+        android:id="@+id/add_home_addr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter the home addresss"/>
+    <EditText
+        android:layout_marginTop="5dp"
+        android:id="@+id/add_home_flat_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter the home flat count"/>
+
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/add_home_btn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Add home"/>
+
+
+</LinearLayout>

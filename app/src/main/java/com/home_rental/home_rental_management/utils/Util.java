@@ -14,7 +14,7 @@ public class Util {
             Timestamp expTimeStamp = new Timestamp(Integer.valueOf(expiryTimeInMillisecond));
             Timestamp currentTimeStamp = new Timestamp(System.currentTimeMillis());
 
-            if (expTimeStamp.after(currentTimeStamp)) {
+            if (expTimeStamp.before(currentTimeStamp)) {
                 return true;
             }
 

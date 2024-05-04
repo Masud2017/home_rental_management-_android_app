@@ -39,12 +39,20 @@ public class HomeAndLoginFragmentAdapter extends FragmentStateAdapter {
 
             return fragment;
         } else if (position == 1) {
-            Fragment fragment;
+            Fragment fragment = null;
             if (sharedPreferences.getString("session","").equals("true")) {
-                fragment= new UserDashboardFragment();
-                Bundle args = new Bundle();
-                args.putString("Login","Tab "+(position+1));
-                fragment.setArguments(args);
+                if (sharedPreferences.getString("role","").equals("user")) {
+                    fragment= new UserDashboardFragment();
+                    Bundle args = new Bundle();
+                    args.putString("Login","Tab "+(position+1));
+                    fragment.setArguments(args);
+                } else if (sharedPreferences.getString("role","").equals("seller")) {
+                    fragment= new SllerUserDashboardFragment();
+                    Bundle args = new Bundle();
+                    args.putString("Login","Tab "+(position+1));
+                    fragment.setArguments(args);
+
+                }
 
             } else {
                 fragment= new LoginFragment();

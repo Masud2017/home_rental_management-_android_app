@@ -19,6 +19,8 @@ public class HomeInfoActivity extends AppCompatActivity {
     private TextView homeInfoDesc = null;
     private TextView homeInfoPrice = null;
     private AppCompatButton buyButton = null;
+    private AppCompatButton deleteBtn = null;
+
     @Override
     @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class HomeInfoActivity extends AppCompatActivity {
         this.homeInfoDesc = findViewById(R.id.home_info_desc);
         this.homeInfoPrice = findViewById(R.id.home_info_price);
         this.buyButton = findViewById(R.id.home_buy_btn);
+        this.deleteBtn = findViewById(R.id.home_delete_btn);
 
         Bundle extras = getIntent().getExtras();
         String home_id = extras.getString("home_id");
@@ -50,21 +53,33 @@ public class HomeInfoActivity extends AppCompatActivity {
                 this.buyButton.setVisibility(View.VISIBLE);
 
                 this.buyButton.setOnClickListener(view2 -> {
-                    Api.DeleteHomeById deleteHomeByIdAsyncTask = api.new DeleteHomeById().setHomeId(home_id).setContext(this);
-                    try {
-                        deleteHomeByIdAsyncTask.execute().get();
-                        Intent intent = new Intent(this,HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // pulling that already running activity instead of creating a new one to the activity stack
-                        startActivity(intent);
-                        finish();
-                    } catch (ExecutionException e) {
-                        throw new RuntimeException(e);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+
                 });
+
+
             }
 
+            Bundle intentInfo = getIntent().getExtras();
+            if (intentInfo.get("seller")!= null ) {
+                if (((String)intentInfo.get("seller")).equals("true")){
+                    this.deleteBtn.setVisibility(View.VISIBLE);
+                    this.deleteBtn.setOnClickListener(view2 -> {
+                        Api.DeleteHomeById deleteHomeByIdAsyncTask = api.new DeleteHomeById().setHomeId(home_id).setContext(this);
+                        try {
+                            deleteHomeByIdAsyncTask.execute().get();
+                            Intent intent = new Intent(this,HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // pulling that already running activity instead of creating a new one to the activity stack
+                            startActivity(intent);
+                            finish();
+                        } catch (ExecutionException e) {
+                            throw new RuntimeException(e);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                }
+
+            }
 
         } catch (ExecutionException e) {
             throw new RuntimeException(e);

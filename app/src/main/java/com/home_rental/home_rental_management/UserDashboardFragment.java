@@ -12,9 +12,11 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.home_rental.home_rental_management.Models.MyProfile;
+import com.home_rental.home_rental_management.adapters.CardListAdapter;
 import com.home_rental.home_rental_management.services.Api;
 
 import java.util.concurrent.ExecutionException;
@@ -23,6 +25,8 @@ import java.util.concurrent.ExecutionException;
 public class UserDashboardFragment extends Fragment {
     private AppCompatImageView profileImage = null;
     private TextView profileName = null;
+    private GridView inventoryList = null;
+
     private AppCompatImageView imageView = null;
     public UserDashboardFragment() {
         // Required empty public constructor
@@ -45,6 +49,19 @@ public class UserDashboardFragment extends Fragment {
 
         this.profileImage = view.findViewById(R.id.rd_img);
         this.profileName = view.findViewById(R.id.rd_name);
+        this.inventoryList = view.findViewById(R.id.user_inventory_list);
+
+        try {
+            CardListAdapter cardListAdapter = new CardListAdapter(getContext());
+            cardListAdapter.setUserFlag(true);
+            this.inventoryList.setAdapter(cardListAdapter);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
 
 
 

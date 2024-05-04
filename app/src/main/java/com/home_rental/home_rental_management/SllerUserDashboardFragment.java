@@ -1,64 +1,114 @@
 package com.home_rental.home_rental_management;
 
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SllerUserDashboardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class SllerUserDashboardFragment extends Fragment {
+import com.home_rental.home_rental_management.Models.MyProfile;
+import com.home_rental.home_rental_management.adapters.CardListAdapter;
+import com.home_rental.home_rental_management.services.Api;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import org.w3c.dom.Text;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import java.util.concurrent.ExecutionException;
+
+
+public class SllerUserDashboardFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+    private AppCompatImageView profileImage = null;
+    private GridView gridView = null;
+    private SwipeRefreshLayout swipeRefreshLayout = null;
+    private AppCompatImageView addHomeBtn = null;
+    private TextView profileName = null;
+
 
     public SllerUserDashboardFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SllerUserDashboardFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SllerUserDashboardFragment newInstance(String param1, String param2) {
-        SllerUserDashboardFragment fragment = new SllerUserDashboardFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sller_user_dashboard, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance) {
+        super.onViewCreated(view,savedInstance);
+        this.gridView = view.findViewById(R.id.seller_user_home_list);
+        this.swipeRefreshLayout = view.findViewById(R.id.seller_user_swiper);
+        this.addHomeBtn = view.findViewById(R.id.add_home_btn);
+        this.profileImage = view.findViewById(R.id.seller_user_profile_img);
+        this.profileName = view.findViewById(R.id.seller_user_name);
+
+        Api api = new Api();
+        Api.MyProfileAsyncTask myProfileAsyncTask = api.new MyProfileAsyncTask().setContext(getContext());
+        MyProfile myProfile = null;
+        try {
+            myProfile = myProfileAsyncTask.execute().get();
+            this.profileName.setText(myProfile.getName());
+            String profileImageBase64String = myProfile.getImage();
+            byte[] imgByteArray = Base64.decode(profileImageBase64String,Base64.DEFAULT);
+            this.profileImage.setImageBitmap(BitmapFactory.decodeByteArray(imgByteArray,0,imgByteArray.length));
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+
+        this.addHomeBtn.setOnClickListener(view2  -> {
+            Intent intent = new Intent(SllerUserDashboardFragment.this.getContext(),AddHomeActivity.class);
+            startActivity(intent);
+        });
+
+        try {
+            CardListAdapter adapter = new CardListAdapter(getContext()).setUserFlag(true).setForSeller(true);
+            this.gridView.setAdapter(adapter);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.swipeRefreshLayout.setOnRefreshListener(this);
+
+
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    CardListAdapter adapter = new CardListAdapter(SllerUserDashboardFragment.this.getContext()).setUserFlag(true);
+                    gridView.setAdapter(adapter);
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        },1000);
     }
 }

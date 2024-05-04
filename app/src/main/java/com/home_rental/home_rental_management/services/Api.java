@@ -17,6 +17,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.home_rental.home_rental_management.AddHomeActivity;
 import com.home_rental.home_rental_management.Models.Home;
 import com.home_rental.home_rental_management.Models.HomeModelResponse;
 import com.home_rental.home_rental_management.Models.MyProfile;
@@ -383,6 +384,117 @@ public class Api {
 
         @Override
         protected Void doInBackground(String... strings) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public class MyHomeListAsyncTask extends AsyncTask<String, Void, List<HomeModelResponse>> {
+        private Context context;
+
+        public MyHomeListAsyncTask setContext(Context context) {
+            this.context = context;
+            return this;
+        }
+        @Override
+        protected List<HomeModelResponse> doInBackground(String... strings) {
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+
+            String jwtToken = sharedPreferences.getString("access_token","");
+            Type listType = new TypeToken<List<HomeModelResponse>>() {}.getType();
+            Request request = new Request.Builder()
+                    .header("Authorization","Bearer "+jwtToken)
+                    .url(baseUrl + "/myhomelist")
+                    .build();
+
+            try {
+                Response res = client.newCall(request).execute();
+                String resStr = res.body().string();
+                Gson gson = new Gson();
+                List<HomeModelResponse> homeModelResponseList = gson.fromJson(resStr,listType);
+                return homeModelResponseList;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public class AddHomeAsyncTask extends AsyncTask<String, Void,Void> {
+        private Home home;
+        private Context context;
+
+        public AddHomeAsyncTask setHome(Home home) {
+            this.home = home;
+            return this;
+        }
+
+        public AddHomeAsyncTask setContext(Context context) {
+            this.context = context;
+            return this;
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            HomeModelResponse homeModelResponse = new HomeModelResponse();
+            homeModelResponse.setName(this.home.getName());
+            homeModelResponse.setDesc(this.home.getDesc());
+            homeModelResponse.setPrice(this.home.getPrice());
+            homeModelResponse.setAddress(this.home.getAddress());
+            homeModelResponse.setFlat_count(this.home.getFlat_count());
+
+            Gson homeModelGson = new Gson();
+            String homeModelJsonStr = homeModelGson.toJson(homeModelResponse);
+            System.out.println("Value of home model json str " + homeModelJsonStr);
+            MediaType JSON = MediaType.get("application/json");
+            RequestBody requestBody = RequestBody.create(JSON,homeModelJsonStr);
+
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+            String jwtToken = sharedPreferences.getString("access_token","");
+
+            Request request = new Request.Builder()
+                    .post(requestBody)
+                    .header("Authorization","Bearer "+jwtToken)
+                    .url(baseUrl + "/addhome")
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                String homeModelResponseStr = response.body().string();
+                HomeModelResponse homeModelResponseRes =  homeModelGson.fromJson(homeModelResponseStr,HomeModelResponse.class);
+
+                // now need to add my image for home
+
+                ByteArrayOutputStream barrout = new ByteArrayOutputStream();
+                Bitmap image = ((BitmapDrawable)this.home.getHomeImage().getDrawable()).getBitmap();
+                image.compress(Bitmap.CompressFormat.JPEG,100,barrout);
+
+                byte[] byteArray = barrout.toByteArray();
+
+                Random random = new Random();
+                String filename = String.valueOf(random.nextInt());
+
+
+                RequestBody requestBodyHomeImage = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("image",filename,RequestBody.create(MediaType.parse("image/*"),byteArray))
+                        .build();
+
+                Request requestHomeImage = new Request.Builder()
+                        .post(requestBodyHomeImage)
+                        .header("Authorization", "Bearer "+jwtToken)
+                        .url(baseUrl + "/addhomeimage/"+homeModelResponseRes.getId())
+                        .build();
+
+                client.newCall(requestHomeImage).execute();
+
+
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return null;
         }
     }
