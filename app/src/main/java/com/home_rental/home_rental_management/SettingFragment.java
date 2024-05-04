@@ -80,6 +80,11 @@ public class SettingFragment extends Fragment {
             startActivity(transactionIntent);
         });
 
+        this.walletHistory.setOnClickListener(view2 -> {
+            Intent walletHistoryIntent = new Intent(getContext(),RechargeHistoryActivity.class);
+            startActivity(walletHistoryIntent);
+        });
+
         this.logoutText.setOnClickListener(view1 -> {
             SharedPreferences sharedPreferences = SettingFragment.this.getContext().getSharedPreferences("user_session", Context.MODE_PRIVATE);
 

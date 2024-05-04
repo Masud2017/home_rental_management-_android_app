@@ -706,4 +706,38 @@ public class Api {
             return null;
         }
     }
+
+    @SuppressWarnings("deprecation")
+    public class GetRechargeHistoryList extends AsyncTask<String,Void,List<WalletHistory>> {
+        private Context context;
+
+        public GetRechargeHistoryList setContext(Context context) {
+            this.context = context;
+            return this;
+        }
+
+        @Override
+        protected List<WalletHistory> doInBackground(String... strings) {
+            SharedPreferences sharedPreferences = this.context.getSharedPreferences("user_session",Context.MODE_PRIVATE);
+            String jwtToken = sharedPreferences.getString("access_token","");
+
+            Request request = new Request.Builder()
+                    .header("Authorization", "Bearer "+jwtToken)
+                    .url(baseUrl + "/getrechargehistories")
+                    .build();
+
+
+            Type listType = new TypeToken<List<WalletHistory>>() {}.getType();
+            try {
+                Response res = client.newCall(request).execute();
+                String resStr = res.body().string();
+                Gson gson = new Gson();
+                List<WalletHistory> walletHistoryList = gson.fromJson(resStr,listType);
+
+                return walletHistoryList;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }
