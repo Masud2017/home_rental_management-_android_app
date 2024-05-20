@@ -22,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
@@ -51,6 +52,7 @@ public class SignupActivity extends AppCompatActivity{
     private RadioGroup roleRadioGroup = null;
     private RadioButton roleButton = null;
     private AppCompatButton signUpBtn = null;
+    private AppCompatEditText phoneNumber = null;
     private AlertDialog.Builder alertDialogBuilder = null;
 
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
@@ -81,6 +83,7 @@ public class SignupActivity extends AppCompatActivity{
         this.roleRadioGroup = findViewById(R.id.role_signup);
         this.signUpBtn = findViewById(R.id.singup_btn);
         this.alertDialogBuilder = new AlertDialog.Builder(this);
+        this.phoneNumber = findViewById(R.id.phone_number);
 
         this.roleRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -105,6 +108,7 @@ public class SignupActivity extends AppCompatActivity{
                     user.setEmail(this.email.getText().toString());
                     user.setPassword(this.password.getText().toString());
                     user.setName(this.name.getText().toString());
+                    user.setPhone_number(this.phoneNumber.getText().toString());
 
                     signupUserAsyncTask.setRole("user");
                     signupUserAsyncTask.setUser(user);
@@ -137,6 +141,7 @@ public class SignupActivity extends AppCompatActivity{
                     user.setEmail(this.email.getText().toString());
                     user.setPassword(this.password.getText().toString());
                     user.setName(this.name.getText().toString());
+                    user.setPhone_number(this.phoneNumber.getText().toString());
 
                     signupUserAsyncTask.setRole("seller");
                     signupUserAsyncTask.setUser(user);

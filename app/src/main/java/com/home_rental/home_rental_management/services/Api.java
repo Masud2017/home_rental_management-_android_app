@@ -43,7 +43,7 @@ import okhttp3.ResponseBody;
 
 public class Api {
     private Integer port = 4444;
-    private String baseUrl = "https://5b09-103-112-236-90.ngrok-free.app";
+    private String baseUrl = "http://homerentalmanagement-env.eba-jvi7e6mj.us-east-1.elasticbeanstalk.com";
     private OkHttpClient client = null;
 
     public Api() {

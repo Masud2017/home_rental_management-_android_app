@@ -31,6 +31,7 @@ public class SettingFragment extends Fragment {
     private AppCompatImageView settingProfilePic = null;
     private TextView settingName = null;
     private TextView settingBalance = null;
+    private TextView phoneNumber = null;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -52,6 +53,7 @@ public class SettingFragment extends Fragment {
         this.settingProfilePic = view.findViewById(R.id.setting_profile_pic);
         this.settingName = view.findViewById(R.id.setting_name);
         this.settingBalance = view.findViewById(R.id.setting_balance);
+        this.phoneNumber = view.findViewById(R.id.phone_number_setting);
 
         Api api = new Api();
         Api.MyProfileAsyncTask myProfileAsyncTask = api.new MyProfileAsyncTask().setContext(getContext());
@@ -59,9 +61,12 @@ public class SettingFragment extends Fragment {
             MyProfile myProfile = myProfileAsyncTask.execute().get();
 
             this.settingName.setText(myProfile.getName());
+
             String profileImageBase64String = myProfile.getImage();
             byte[] imgByteArray = Base64.decode(profileImageBase64String,Base64.DEFAULT);
             this.settingProfilePic.setImageBitmap(BitmapFactory.decodeByteArray(imgByteArray,0,imgByteArray.length));
+
+            this.phoneNumber.setText(myProfile.getPhone_number());
 
         } catch (ExecutionException e) {
             throw new RuntimeException(e);

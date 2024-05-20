@@ -24,6 +24,8 @@
         android:scaleType="fitXY"
         />
 
+
+
     <androidx.appcompat.widget.AppCompatButton
         android:layout_marginTop="5dp"
         android:id="@+id/camera_button"
@@ -61,6 +63,13 @@
         android:layout_height="wrap_content"
         android:hint="Retype your password"
         />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:layout_marginTop="10dp"
+        android:id="@+id/phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Provide your phone number"/>
     <RadioGroup
         android:id="@+id/role_signup"
         android:layout_width="match_parent"
